@@ -1,0 +1,14 @@
+{
+    "name": "elipa/framwork",
+    "description": "main classes used by ipay/elipa",
+    "authors": [
+        {
+            "name": "technical",
+            "email": "technical@ipayafrica.com"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		"psr-4": {"elipa\\": "Classes"}
+	}
+}
