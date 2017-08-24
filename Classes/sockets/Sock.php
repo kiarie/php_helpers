@@ -53,10 +53,10 @@ class Sock{
         // exit(var_dump($this->content));
         switch ($method) {
             case 'POST':
-                    $this->post($this->content, $content_type);
+                    return ($this->post($this->content, $content_type) === false)? false: true;
                 break;
             case 'GET':
-                    $this->get($query);
+                    return ($this->get($query, $content_type) === false)? false: true;
                 break;
             default:
                 throw new \Exception($method." Not a Supported Method ", 1);
@@ -71,10 +71,10 @@ class Sock{
             $writer = "GET ".$this->path.$content." HTTP/1.1\r\n";
             $writer .= "Host: ".$this->url['host']." \r\n";
             $writer .= $this->encoding;
-            $writer .= $this->content_type($content_type);
+            // $writer .= $this->content_type($content_type);
             $writer .= $this->keepalive;//this sure helped
             $writer .= "\r\n";
-            $this->writer($writer);
+            return $this->writer($writer);
     }
     /*
     *      @function Sock::post() creates a socket for a post request with all headers
@@ -89,7 +89,7 @@ class Sock{
             $writer .= $this->keepalive;//this sure helpd
             $writer .= "\r\n";
             $writer .= $content; //the POST content here
-            $this->writer($writer);
+            return $this->writer($writer);
     }      
     // An array of all available content types used in this class
     function content_type($content_type)
@@ -114,11 +114,21 @@ class Sock{
             }
         return $read;
     }
+    function read_data()
+    {
+
+        $read = preg_split("/[\r\n]+/", $this->read());
+        $header = array_filter($read, function($value){
+            return (substr_compare($value,'Content-Type',0,11)=== 0)? $value :false;
+        });
+        header(end($header));//set headers
+        echo end($read);
+    }
     /*
     * @function Sock::close() Closes a socket connection call it always to close socket
     */
     function close()
     {
-        fclose($this->fp);
+        return fclose($this->fp);
     }
 }?>

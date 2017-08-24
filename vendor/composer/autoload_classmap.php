@@ -6,4 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'elipa\\database\\ORM_Model' => $baseDir . '/Classes/database/ORM_Model.php',
+    'elipa\\email\\Email' => $baseDir . '/Classes/email/Email.php',
+    'elipa\\sockets\\Sock' => $baseDir . '/Classes/sockets/Sock.php',
 );
