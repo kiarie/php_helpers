@@ -43,7 +43,7 @@ class Sock{
         //Get the path if any default to / if not 
         $this->path = (isset($this->url['path']))?$this->url['path']:'/';
         //Get the query params if any useful for GET
-        $query = (isset($this->url['query']))? "?".http_build_query($this->url['query']):'';
+        $query = (isset($this->url['query']))? "?".$this->url['query']:'';
         //set encoding for now just gzip
         $this->encoding = (substr_compare($protocol, 'HTTP', 0, 4) === 0)? "Accept-Encoding: gzip, deflate, br\r\n" :'';
         //connection header with keep-alive and close as options
@@ -114,15 +114,19 @@ class Sock{
             }
         return $read;
     }
+    /**
+    * @function Sock::read_data()
+    */
     function read_data()
     {
-
+        //Split data into an array by the \r\n lines
         $read = preg_split("/[\r\n]+/", $this->read());
+        //Then extract the Content-type header
         $header = array_filter($read, function($value){
             return (substr_compare($value,'Content-Type',0,11)=== 0)? $value :false;
         });
-        header(end($header));//set headers
-        echo end($read);
+        header(end($header));//set Content-type header
+        echo end($read);//echo to the buffer
     }
     /*
     * @function Sock::close() Closes a socket connection call it always to close socket
