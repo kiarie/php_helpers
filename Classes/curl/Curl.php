@@ -5,8 +5,8 @@
  * @link      https://ipayafrica.com
  * @copyright Copyright (c) 2014-2017 Starford Gwala
  */
-namespace elipa\curl;
-Class Curl 
+ namespace elipa\curl;
+class Curl
 {
     const DEFAULT_TIMEOUT = 30;
     public $curl;
@@ -24,7 +24,7 @@ Class Curl
 	function __construct()
 	{
         if (!extension_loaded('curl')) {
-            throw new \ErrorException('cURL library is not loaded');
+            throw new \ErrorException('Curl library is not loaded');
         }
         
         $this->curl = curl_init();
@@ -60,7 +60,7 @@ Class Curl
 
 /*
 |--------------------------------------------------------------------------
-| get
+| post
 |--------------------------------------------------------------------------
 |
 | accepts @url and @arguments
@@ -71,17 +71,16 @@ Class Curl
 */
 	public function post($url, $arguments = array())
 	{
-			if(!empty($arguments)):
+			if(empty($arguments)):
 				throw new \ErrorException('Missing POST ARGUMENTS');
 			endif;
-			$ch = curl_init($url);
+			curl_setopt( $this->curl , CURLOPT_URL, $url);
             curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, http_build_query($arguments));
             curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($this->curl, CURLOPT_CONNECTTIMEOUT, 3);
-  			curl_setopt($this->curl, CURLOPT_TIMEOUT, 3);
-            curl_setopt($this->curl, CURLOPT_HTTPHEADER, array( "content-type: application/x-www-form-urlencoded")); 
-
+  			//curl_setopt($this->curl, CURLOPT_TIMEOUT, 3);
+            curl_setopt($this->curl, CURLOPT_HTTPHEADER, array( "content-type: application/x-www-form-urlencoded"));
 			$result = curl_exec($this->curl);
 			// close cURL resource, and free up system resources
 			curl_close($this->curl);

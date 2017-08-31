@@ -20,18 +20,11 @@ class ComposerStaticInit3b97911bbedabca280e6899482050024
         ),
     );
 
-    public static $classMap = array (
-        'elipa\\database\\ORM_Model' => __DIR__ . '/../..' . '/Classes/database/ORM_Model.php',
-        'elipa\\email\\Email' => __DIR__ . '/../..' . '/Classes/email/Email.php',
-        'elipa\\sockets\\Sock' => __DIR__ . '/../..' . '/Classes/sockets/Sock.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3b97911bbedabca280e6899482050024::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3b97911bbedabca280e6899482050024::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3b97911bbedabca280e6899482050024::$classMap;
 
         }, null, ClassLoader::class);
     }
