@@ -16,10 +16,13 @@ try {
     //==================================
     //-------------------Sample GET-----
     //==================================
-    $sock = new \elipa\sockets\Sock('http://localhost/ipay_admin/ipay-admin/creditcard/attempt/list/ke?paola=pso');
+    $sock = new \elipa\sockets\Sock('https://apis.ipayafrica.com/wallet-api/index.php/b2c/topup/number?amount=100&amp;reference=DEMONEWR313ED150572440244561790&amp;phone=254724558697&amp;demo=0');
     $get = $sock->method('GET'); //Just pass the  'GET' no need for data to be passed through
     $read = $sock->read(); //if you wanna WAIT for the response or see it 
     $sock->close();
+    var_dump($read);
+    $xportlist = stream_get_transports();
+    print_r($xportlist);
 } catch (Exception $e) {
     echo 'test error';
     print($e->getMessage());

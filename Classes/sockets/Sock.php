@@ -2,15 +2,17 @@
 namespace elipa\sockets;
 class Sock{
     
-    function __construct($url, $port= 80, $persistent = false)
+    function __construct($url, $persistent = false)
     {
         if(parse_url($url)){
         $this->original_url =  $url;
         $this->url = (parse_url($url, PHP_URL_QUERY))? parse_url($url): parse_url($url);
+        $port =($this->url['scheme'] === 'https')?443:80;
         }else{
             throw new \InvalidArgumentException("Invalid URL given " .$url);
         }
         $this->fp = ($persistent)? fsockopen($this->url['host'], $port, $errno, $errstr, 30):pfsockopen($this->url['host'], $port, $errno, $errstr, 30);//pfsockopen() is for persistent connections 
+        $this->sslmode();
         if(!$this->fp){
             throw new \Exception("Error Processing Socket Request".$errno." - ".$errstr, 1);         
         }
@@ -32,6 +34,12 @@ class Sock{
     function writer($string)
     { 
         return (empty($string))?'': fwrite($this->fp, $string);
+    }
+    private function sslmode()
+    {
+        if($this->url['scheme'] === 'https'){
+            stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_SSLv23_CLIENT);
+        }
     }
     /**
     *      @function Sock::method, takes in method e.g. GET, [content_type,  content] these two especially needed for post
@@ -74,6 +82,7 @@ class Sock{
             // $writer .= $this->content_type($content_type);
             $writer .= $this->keepalive;//this sure helped
             $writer .= "\r\n";
+            var_dump($writer);
             return $this->writer($writer);
     }
     /*
