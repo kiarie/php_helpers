@@ -16,7 +16,7 @@ try {
     //==================================
     //-------------------Sample GET-----
     //==================================
-    $sock = new \elipa\sockets\Sock('https://apis.ipayafrica.com/wallet-api/index.php/b2c/topup/number?amount=100&amp;reference=DEMONEWR313ED150572440244561790&amp;phone=254724558697&amp;demo=0');
+    $sock = new \elipa\sockets\Sock('https://phase2.ipayafrica.com:8090/ipay/airtelb2c/index.php?B2C=PAY&demo&REF=DEMONEWR313ED150573012432077938&AMOUNT=100&NUMBER=254736036662');
     $get = $sock->method('GET'); //Just pass the  'GET' no need for data to be passed through
     $read = $sock->read(); //if you wanna WAIT for the response or see it 
     $sock->close();

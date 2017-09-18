@@ -7,11 +7,11 @@ class Sock{
         if(parse_url($url)){
         $this->original_url =  $url;
         $this->url = (parse_url($url, PHP_URL_QUERY))? parse_url($url): parse_url($url);
-        $port =($this->url['scheme'] === 'https')?443:80;
+        $this->port = $this->port_check();
         }else{
             throw new \InvalidArgumentException("Invalid URL given " .$url);
         }
-        $this->fp = ($persistent)? fsockopen($this->url['host'], $port, $errno, $errstr, 30):pfsockopen($this->url['host'], $port, $errno, $errstr, 30);//pfsockopen() is for persistent connections 
+        $this->fp = ($persistent)? fsockopen($this->url['host'], $this->port, $errno, $errstr, 30):pfsockopen($this->url['host'], $this->port, $errno, $errstr, 30);//pfsockopen() is for persistent connections 
         $this->sslmode();
         if(!$this->fp){
             throw new \Exception("Error Processing Socket Request".$errno." - ".$errstr, 1);         
@@ -35,11 +35,19 @@ class Sock{
     { 
         return (empty($string))?'': fwrite($this->fp, $string);
     }
+    private function port_check()
+    {
+        if(isset($this->url['port'])){
+            $port = $this->url['port'];
+        }elseif(!isset($this->url['port'])){
+            $port =($this->url['scheme']=== 'https')?443:80;
+        }
+        return $port;
+
+    }
     private function sslmode()
     {
-        if($this->url['scheme'] === 'https'){
-            stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_SSLv23_CLIENT);
-        }
+        return ($this->url['scheme'] === 'https')?stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_SSLv23_CLIENT):false;
     }
     /**
     *      @function Sock::method, takes in method e.g. GET, [content_type,  content] these two especially needed for post
