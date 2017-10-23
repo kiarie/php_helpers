@@ -90,7 +90,7 @@ class Sock{
             // $writer .= $this->content_type($content_type);
             $writer .= $this->keepalive;//this sure helped
             $writer .= "\r\n";
-            var_dump($writer);
+  
             return $this->writer($writer);
     }
     /*

@@ -48,8 +48,6 @@ class ORM_Model
 	}
 	function values($arguments)
 	{
-		// $args = (is_array($arguments))? implode('","', $value): $arguments;
-		echo "called once X";
 		try
 		{
 		// $stmt = $this->dbh->prepare($this->insert);
