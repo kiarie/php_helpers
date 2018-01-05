@@ -74,7 +74,7 @@ class ORM_Model
 	{
 		$value = (is_string($value))?$value:(string)$value;
 		$fielded = strpos($field, ')')? $field : '`'.$field.'`';//if it has a bracket say WEEK(value) or YEAR(value) remove the quotes
-		//Only when there is a previous where do we set it
+		//Only when there is a previous WHERE clause do we set it
 		(isset($this->where))?$this->where .= ' OR '.$fielded.' '.$operator.' "'.$value.'"' :'';
 
 
