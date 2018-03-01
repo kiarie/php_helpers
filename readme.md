@@ -3,7 +3,7 @@ This are a few helper functions in PHP, One for sockets and another More less a 
 
 THE SOCKET CLASS
 ================
-This class is a one that arguments the usage of sockets, it has two Http methods it supports that is 
+This class is a one that augments the usage of sockets, it has two Http methods it supports that is 
 POST and GET
 See Below:
 
