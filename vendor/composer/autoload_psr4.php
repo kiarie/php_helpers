@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'elipa\\' => array($baseDir . '/Classes'),
+    'helpers\\' => array($baseDir . '/Classes'),
 );

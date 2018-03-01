@@ -1,5 +1,5 @@
 <?php
-namespace elipa\database;
+namespace helpers\database;
 use PDO;
 class ORM_Model
 {

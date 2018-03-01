@@ -1,5 +1,5 @@
 <?php
-namespace elipa\sockets;
+namespace helpers\sockets;
 class Sock{
     
     function __construct($url, $persistent = false)

@@ -9,6 +9,6 @@
     ],
     "require": {},
 	"autoload": {
-		"psr-4": {"elipa\\": "Classes"}
+		"psr-4": {"helpers\\": "Classes"}
 	}
 }
